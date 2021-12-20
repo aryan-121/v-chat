@@ -8,10 +8,10 @@ body {
   margin: 0 auto;
 }
 
-.App header {
+.App header { 
   width: 100vw;
   text-align: center;
-  background-color: #25b7f0;
+  background-color: #fca311;
   height: 10vh;
   min-height: 50px;
   color: white;
@@ -32,7 +32,16 @@ body {
   flex-direction: column;
   justify-content: center;
   min-height: 100vh;
-  background-color: #828081;
+  background-color: #e5e5e5;
+}
+
+#signin{
+  display: flex;
+  justify-content: center;
+  max-width: 400px;
+  margin: auto;
+  color: #ffffff;
+  background-color: #efb545;
 }
 
 main {
@@ -53,7 +62,7 @@ main::-webkit-scrollbar-track {
 }
 
 main::-webkit-scrollbar-thumb {
-  background: #6649b8;
+  background: #a4c5c0;
 }
 
 form {
@@ -77,15 +86,15 @@ input {
   line-height: 1.5;
   width: 100%;
   font-size: 1.5rem;
-  background: rgb(58, 58, 58);
-  color: white;
+  background: #ffffff;
+  color: black;
   outline: none;
   border: none;
   padding: 0 10px;
 }
 
 button {
-  background-color: #282c34; /* Green */
+  background-color: #e9862c; /* Green */
   border: none;
   color: white;
   padding: 15px 32px;
@@ -144,7 +153,7 @@ p {
   align-self: flex-end;
 }
 .received p {
-  background: #e5e5ea;
+  background: #ffffff;
   color: black;
 }
 

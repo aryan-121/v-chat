@@ -20,17 +20,14 @@ firebase.initializeApp({
 const auth = firebase.auth();
 const firestore = firebase.firestore();
 
+
 function App() {
   const [user] = useAuthState(auth);
   return (
     <div className="App">
       <header>
          V-CHAT
-         <button id = "signout" onClick={(e)=>{
-           e.preventDefault();
-           auth.signOut();
-           document.getElementById("signout").style.display = "hidden";
-         }}>Sign Out</button>
+         {user? <SignOut />: <></>}
       </header>
 
       <section>
@@ -40,21 +37,29 @@ function App() {
   );
 }
 
+function SignOut(){
+  return(
+    <button id = "signout" onClick={(e)=>{
+      e.preventDefault();
+      auth.signOut();
+    }}>Sign Out</button>
+  );
+}
+
 function SignIn(){
+  const signout = document.getElementById("signout")
   const signInWithGoogle = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider);
   }
+  if(signout) 
+  signout.style.display = "hidden";
   return(
-    <button onClick={signInWithGoogle}>Sign in with Google</button>
+    <button  id="signin" onClick={signInWithGoogle}>Sign in with Google</button>
   )
 }
 
-function SignOut(){
-  return auth.currentUser && (
-    <button onClick={() => auth.SignOut()}>Sign Out</button>
-  )
-}
+
 
 function ChatRoom(){
   const dummy = useRef();
