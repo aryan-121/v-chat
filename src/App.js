@@ -1,12 +1,14 @@
 import React, { useState, useRef } from "react";
 import './App.css';
 
+
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 
 import {useAuthState} from 'react-firebase-hooks/auth';
 import {useCollectionData} from 'react-firebase-hooks/firestore';
+var CryptoJS = require("crypto-js");
 
 firebase.initializeApp({
   apiKey: "AIzaSyBZGy--btJtgBsbgq55JfHW1w8NF0VzlnE",
@@ -19,7 +21,18 @@ firebase.initializeApp({
 
 const auth = firebase.auth();
 const firestore = firebase.firestore();
+const key = "ynsh67sduhd98dut78"
 
+function encrypt(message = '', key = ''){
+  message = CryptoJS.AES.encrypt(message, key);
+  return message.toString();
+}
+function decrypt(message = '', key = ''){
+  var code = CryptoJS.AES.decrypt(message, key);
+  var decryptedMessage = code.toString(CryptoJS.enc.Utf8);
+
+  return decryptedMessage;
+}
 
 function App() {
   const [user] = useAuthState(auth);
@@ -66,10 +79,11 @@ function ChatRoom(){
   const messageRef = firestore.collection('messages');
   const query = messageRef.orderBy('createdAt').limit(25);
   const[messages] = useCollectionData(query, {idField: 'id'});
-  const [formValue, setFormValue] = useState('');
+  let [formValue, setFormValue] = useState('');
   const sendMessage = async(e) => {
     e.preventDefault();
     const {uid, photoURL} = auth.currentUser;
+    formValue = encrypt(formValue, key);
 
     await messageRef.add({
       text: formValue,
@@ -98,7 +112,8 @@ function ChatRoom(){
 }
 
 function ChatMessage(props){
-  const {text, uid, photoURL} = props.message;
+  let {text, uid, photoURL} = props.message;
+  text = decrypt(text, key);
   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
 
   return(
